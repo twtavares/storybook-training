@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Task } from './interfaces/task.interface';
+import { TaskInterface } from './interfaces/task.interface';
 
 @Component({
   selector: 'app-task',
@@ -9,7 +9,7 @@ import { Task } from './interfaces/task.interface';
 export class TaskComponent implements OnInit {
 
   title: string;
-  @Input() task: Task;
+  @Input() task: TaskInterface;
 
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onPinTask: EventEmitter<any> = new EventEmitter();
