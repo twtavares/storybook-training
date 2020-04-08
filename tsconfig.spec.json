@@ -8,7 +8,6 @@
       "jsdom", 
       "node"
     ],
-    "module": "commonjs",
     "allowJs": true,
   },
   "files": [
