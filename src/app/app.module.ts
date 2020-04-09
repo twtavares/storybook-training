@@ -1,21 +1,23 @@
+import { PureInboxScreenComponent } from './components/pure-inbox-screen/pure-inbox-screen.component';
+import { InboxScreenComponent } from './components/inbox-screen/inbox-screen.component';
+import { TaskModule } from './components/task/task.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
+import { NgModule } from '@angular/core';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { AppComponent } from './app.component';
-import { TaskComponent } from './components/task/task.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TaskComponent
-  ],
+  declarations: [AppComponent, InboxScreenComponent, PureInboxScreenComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    TaskModule,
+    NgxsModule.forRoot([]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class AppModule { }
+export class AppModule {}
