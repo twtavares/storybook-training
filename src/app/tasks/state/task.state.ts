@@ -1,12 +1,11 @@
-import { TaskInterface } from './../task/interfaces/task.interface';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
+import { Task } from '../task.model';
 
-// defines the actions available to the app
 export const actions = {
   ARCHIVE_TASK: 'ARCHIVE_TASK',
   PIN_TASK: 'PIN_TASK',
-  // defines the new error field we need
-  ERROR: 'APP_ERROR',
+  ERROR: 'ERROR',
+  CLEAN_ERROR: 'CLEAN_ERROR',
 };
 
 export class ArchiveTask {
@@ -20,10 +19,11 @@ export class PinTask {
 
   constructor(public payload: string) {}
 }
-// the class definition for our error field
-export class AppError {
+
+export class ErrorFromServer {
   static readonly type = actions.ERROR;
-  constructor(public payload: boolean) {}
+
+  constructor(public payload: string) {}
 }
 
 // The initial state of our store when the app loads.
@@ -36,16 +36,15 @@ const defaultTasks = {
 };
 
 export class TaskStateModel {
-  entities: { [id: number]: TaskInterface };
-  error: boolean;
+  entities: { [id: number]: Task };
+  error: string;
 }
 
-// sets the default state
 @State<TaskStateModel>({
   name: 'tasks',
   defaults: {
     entities: defaultTasks,
-    error: false,
+    error: '',
   },
 })
 export class TasksState {
@@ -55,16 +54,26 @@ export class TasksState {
     return Object.keys(entities).map(id => entities[+id]);
   }
 
-  // defines a new selector for the error field
   @Selector()
   static getError(state: TaskStateModel) {
-    const { error } = state;
-    return error;
+    return state.error;
   }
-  //
-  // triggers the PinTask action, similar to redux
+
+  @Action(ErrorFromServer)
+  error(
+    { patchState }: StateContext<TaskStateModel>,
+    { payload }: ErrorFromServer,
+  ) {
+    patchState({
+      error: payload,
+    });
+  }
+
   @Action(PinTask)
-  pinTask({ patchState, getState }: StateContext<TaskStateModel>, { payload }: PinTask) {
+  pinTask(
+    { patchState, getState }: StateContext<TaskStateModel>,
+    { payload }: PinTask,
+  ) {
     const state = getState().entities;
 
     const entities = {
@@ -76,9 +85,12 @@ export class TasksState {
       entities,
     });
   }
-  // triggers the PinTask action, similar to redux
+
   @Action(ArchiveTask)
-  archiveTask({ patchState, getState }: StateContext<TaskStateModel>, { payload }: ArchiveTask) {
+  archiveTask(
+    { patchState, getState }: StateContext<TaskStateModel>,
+    { payload }: ArchiveTask,
+  ) {
     const state = getState().entities;
 
     const entities = {
@@ -88,15 +100,6 @@ export class TasksState {
 
     patchState({
       entities,
-    });
-  }
-
-  // function to handle how the state should be updated when the action is triggered
-  @Action(AppError)
-  setAppError({ patchState, getState }: StateContext<TaskStateModel>, { payload }: AppError) {
-    const state = getState();
-    patchState({
-      error: !state.error,
     });
   }
 }
