@@ -30,7 +30,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.1",
+    "@angular-devkit/build-angular": "~15.0.0",
     "@angular/cli": "~9.1.1",
     "@angular/compiler-cli": "~9.1.1",
     "@angular/language-service": "~9.1.1",
@@ -40,9 +40,9 @@
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addon-notes": "^5.3.18",
-    "@storybook/addon-storyshots": "^5.3.18",
+    "@storybook/addon-storyshots": "^6.5.13",
     "@storybook/addons": "^5.3.18",
-    "@storybook/angular": "^5.3.18",
+    "@storybook/angular": "^6.5.13",
     "@testing-library/angular": "^9.1.0",
     "@testing-library/jest-dom": "^5.4.0",
     "@types/jasmine": "~3.3.8",
